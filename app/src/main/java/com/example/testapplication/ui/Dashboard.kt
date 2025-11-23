@@ -1,6 +1,5 @@
 package com.example.testapplication.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,9 +13,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -25,11 +24,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.testapplication.UserViewModel
-import com.example.testapplication.ui.screens.SearchBar
+import com.example.testapplication.navigation.bottom_navigation.BottomNavItems
+import com.example.testapplication.ui.screens.HomeScreen
 import com.example.testapplication.ui.screens.ProductListingBody
-import com.example.testapplication.ui.theme.HomeScreen
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.res.colorResource
+import com.example.testapplication.ui.screens.SearchBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,12 +35,12 @@ import androidx.compose.ui.res.colorResource
 fun Dashboard(userViewModel: UserViewModel) {
 
     val navController = rememberNavController()
-    val bottomItems = listOf(
-        BottomItem.Home,
-        BottomItem.List,
-        BottomItem.Cart,
-        BottomItem.Wishlist,
-        BottomItem.Profile
+    val bottomNavItems = listOf(
+        BottomNavItems.Home,
+        BottomNavItems.List,
+        BottomNavItems.Cart,
+        BottomNavItems.Wishlist,
+        BottomNavItems.Profile
     )
 
     Scaffold(
@@ -73,7 +71,7 @@ fun Dashboard(userViewModel: UserViewModel) {
                 val currentDestination =
                     navController.currentBackStackEntryAsState().value?.destination
 
-                bottomItems.forEach { item ->
+                bottomNavItems.forEach { item ->
 
                     NavigationBarItem(
                         selected = currentDestination?.route == item.route,
@@ -105,18 +103,18 @@ fun Dashboard(userViewModel: UserViewModel) {
 
         NavHost(
             navController = navController,
-            startDestination = BottomItem.Home.route,
+            startDestination = BottomNavItems.Home.route,
             modifier = Modifier.Companion.padding(paddingValues)
         ) {
-            composable(BottomItem.Home.route) {
+            composable(BottomNavItems.Home.route) {
                 ProductListingBody(
                     userViewModel.products.collectAsState().value?.products
                 )
             }
-            composable(BottomItem.List.route) { HomeScreen("Search") }
-            composable(BottomItem.Cart.route) { HomeScreen("Cart") }
-            composable(BottomItem.Wishlist.route) { HomeScreen("Wishlist") }
-            composable(BottomItem.Profile.route) { HomeScreen("Profile") }
+            composable(BottomNavItems.List.route) { HomeScreen("Search") }
+            composable(BottomNavItems.Cart.route) { HomeScreen("Cart") }
+            composable(BottomNavItems.Wishlist.route) { HomeScreen("Wishlist") }
+            composable(BottomNavItems.Profile.route) { HomeScreen("Profile") }
         }
     }
 }

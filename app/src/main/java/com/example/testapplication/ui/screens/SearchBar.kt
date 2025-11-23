@@ -39,10 +39,10 @@ fun SearchBar(
         modifier = Modifier
             .padding(end = 12.dp)
             .fillMaxWidth()
-            .height(48.dp)                       // same height as screenshot
+            .height(48.dp)
             .background(
-                color =Color.White,        // light grey background
-                shape = RoundedCornerShape(16.dp) // fully rounded
+                color =Color.White,
+                shape = RoundedCornerShape(16.dp)
             )
             .padding(horizontal = 16.dp),
         contentAlignment = Alignment.CenterStart
@@ -60,10 +60,10 @@ fun SearchBar(
             Spacer(modifier = Modifier.width(8.dp))
 
             BasicTextField(
-                value = text.value,                     // <-- working
+                value = text.value,
                 onValueChange = {
                     text.value = it
-                },     // <-- working
+                }, 
                 singleLine = true,
                 textStyle = LocalTextStyle.current.copy(
                     color = Color.Black,
